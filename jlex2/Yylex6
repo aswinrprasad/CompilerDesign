@@ -1,0 +1,47 @@
+import java.io.*;
+class Main{
+public static void main(String args[]) throws IOException{
+Yylex6 lex=new Yylex6(System.in);
+Token token=lex.yylex();
+while(token.text!=null) {
+token=lex.yylex();
+}
+}
+}
+class Token{
+String text;
+Token(String t){text=t;}
+}
+%%
+%public
+%class Yylex6
+%type void
+digit = [0-9]
+letter = [a-zA-Z]
+unders = [_]
+special = [!@#$%^&+]
+lparen = [(]
+rparen = [)]
+cslash = [/]
+asterix = [*]
+ws = [\t]
+whitespace = [\t\n]
+%type Token
+%eofval{
+return new Token(null);
+%eofval}
+%%
+("if"|"while"|"for"|"do")
+{System.out.println("<Keyword, " + yytext()+ ">");}
+({lparen}|{rparen})
+{System.out.println("<LParen, " + yytext() +">");}
+({letter}|{unders})({letter}|{digit}|{unders})*
+{System.out.println("<Identifier, " + yytext()+ ">");}
+({cslash}{cslash}((" ")*|{ws}|{letter}|{digit}|special)*)
+{System.out.println("<Comments, " + yytext() + ">");}
+({cslash}{asterix}((" ")*|{ws}|{letter}|{digit}|special)*{asterix}{cslash})
+{System.out.println("<Multiline Comments, " + yytext() + ">");}
+{whitespace}+
+{
+/*Skip white spaces*/
+}
