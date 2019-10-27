@@ -1,0 +1,8 @@
+import java_cup.runtime.*;
+scan with {: return getScanner().next_token(); :};
+terminal INTEGER,VAR,SPACE,SEMI,COM,NEXTL,EOFILE,FLOATNO,FLOAT,EQ;
+non terminal s,prog,stmt,exp;
+s::=prog {: System.out.println("Valid Declaration!"); System.exit(0); :} EOFILE;
+prog::= prog stmt | stmt;
+stmt::= exp NEXTL | exp ;
+exp::= FLOAT SPACE VAR EQ FLOATNO SEMI; 

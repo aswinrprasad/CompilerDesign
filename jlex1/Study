@@ -1,0 +1,18 @@
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
+%%
+%cup
+%eofval{
+	System.exit(0);
+%eofval}
+%%
+"int" {System.out.println("LA "+yytext()); return new Symbol(sym.INTEGER); }
+"float" {System.out.println("LA "+yytext()); return new Symbol(sym.FLOAT); }
+[a-zA-Z][a-zA-Z0-9]* {System.out.println("LA "+yytext()); return new Symbol(sym.VAR); }
+" " {System.out.println("LA "+yytext()); return new Symbol(sym.SPACE); }
+";" {System.out.println("LA "+yytext()); return new Symbol(sym.SEMI); }
+"," {System.out.println("LA "+yytext()); return new Symbol(sym.COM);}
+"=" {System.out.println("LA "+yytext()); return new Symbol(sym.EQ);}
+[0-9]+[.][0-9]* {System.out.println("LA "+yytext()); return new Symbol(sym.FLOATNO);}
+[\n]* {System.out.println("LA NL"); return new Symbol(sym.NEXTL); }
+"$" {System.out.println("LA "+yytext()); return new Symbol(sym.EOFILE); }

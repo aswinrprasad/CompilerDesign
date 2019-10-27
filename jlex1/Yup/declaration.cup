@@ -1,0 +1,21 @@
+import java_cup.runtime.*;
+scan with {: return getScanner().next_token(); :};
+terminal INT, STRING, SEMI, COMMA, ID, SPACE, EOFILE, FLOAT, CHAR, NEXT, EQUALS, FLOATPOINT, VAR, NIL,  PLUS, MINUS, MULT, DIV, INTEGER, CONST, STRINGVAL, ARRAY,STRINGARRAY,IDENTIFIER,ARRAYID,BREAK,CONTINUE,RETURN,PRINT,READ,EQUALTO,NOTEQUAL,GTE,LTE,LT,GT,OPENBR,CLOSEBR,IF,WHILE,FI,END,OB,CB,FOR,DO,TO;
+non terminal prog,stmt,decln,value1,type,variable,value,expr,s,term,sym,com,val,cond,f,fl;
+s::=prog {: System.out.println("Valid declaration"); System.exit(0); :}
+EOFILE;
+prog::=prog stmt | stmt;
+stmt::=decln|BREAK SEMI|CONTINUE SEMI|RETURN SPACE value SEMI| PRINT SPACE ID SEMI|READ SPACE ID SPACE value SEMI|f;
+decln::=variable SPACE type SPACE ID EQUALS value SEMI | type SPACE ID EQUALS value SEMI | ID EQUALS value SEMI |IDENTIFIER  EQUALS value SEMI|ID SEMI| type SPACE ARRAYID EQUALS value1 SEMI|ARRAYID EQUALS value SEMI;
+f::=IF cond prog FI|WHILE cond prog END|FOR SPACE ID EQUALS value SPACE TO SPACE value SPACE DO SPACE prog END;
+cond::=OPENBR val com val CLOSEBR;
+f::=ID OPENBR fl CLOSEBR RETURN SPACE type SPACE prog SEMI;
+fl::=type SPACE ID COMMA fl|type SPACE ID ;
+val::=value|ID|IDENTIFIER;
+com::=GTE|LTE|LT|GT|EQUALTO|NOTEQUAL;
+value1::=ARRAY|STRINGARRAY;
+variable::=VAR | CONST;
+type::=FLOAT|INT|STRING|CHAR;
+value::= FLOATPOINT | STRINGVAL|NIL|expr;
+expr::=INTEGER sym expr| INTEGER;
+sym::= PLUS | MINUS|MULT|DIV;

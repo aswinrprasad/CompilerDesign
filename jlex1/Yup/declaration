@@ -1,0 +1,53 @@
+import java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+%%
+%cup
+%eofval{
+System.exit(0);
+%eofval}
+%%
+";"  {System.out.println("LA "+yytext());return new Symbol(sym.SEMI);}
+"+"  {System.out.println("LA "+yytext());return new Symbol(sym.PLUS);}
+"-"  {System.out.println("LA "+yytext());return new Symbol(sym.MINUS);}
+"*"  {System.out.println("MULT "+yytext());return new Symbol(sym.MULT);}
+"/"  {System.out.println("LA "+yytext());return new Symbol(sym.DIV);}
+","  {System.out.println("LA "+yytext());return new Symbol(sym.COMMA);}
+" "  {System.out.println("LA "+yytext());return new Symbol(sym.SPACE);}
+"(" {System.out.println("OPENBR "+yytext());return new Symbol(sym.OPENBR);}
+")" {System.out.println("CLOSEBR "+yytext());return new Symbol(sym.CLOSEBR);}
+"==" {System.out.println("EQUAL TO "+yytext());return new Symbol(sym.EQUALTO);}
+"!=" {System.out.println("NOTEQUAL "+yytext());return new Symbol(sym.NOTEQUAL);}
+"<=" {System.out.println("LTE"+yytext());return new Symbol(sym.LTE);}
+">=" {System.out.println("GTE "+yytext());return new Symbol(sym.GTE);}
+"<" {System.out.println("LT "+yytext());return new Symbol(sym.LT);}
+">" {System.out.println("GT "+yytext());return new Symbol(sym.GT);}
+"do" {System.out.println("DO "+yytext());return new Symbol(sym.DO);}
+"to" {System.out.println("TO "+yytext());return new Symbol(sym.TO);}
+"for" {System.out.println("FOR "+yytext());return new Symbol(sym.FOR);}
+"int" {System.out.println("INT "+yytext());return new Symbol(sym.INT);}
+"if" {System.out.println("IF "+yytext());return new Symbol(sym.IF);}
+"fi" {System.out.println("FI "+yytext());return new Symbol(sym.FI);}
+"end" {System.out.println("END "+yytext());return new Symbol(sym.END);}
+"while" {System.out.println("WHILE "+yytext());return new Symbol(sym.WHILE);}
+"break" {System.out.println("BREAK "+yytext());return new Symbol(sym.BREAK);}
+"continue" {System.out.println("CONTINUE "+yytext());return new Symbol(sym.CONTINUE);}
+"return" {System.out.println("RETURN "+yytext());return new Symbol(sym.RETURN);}
+"read" {System.out.println("READ "+yytext());return new Symbol(sym.READ);}
+"print" {System.out.println("PRINT "+yytext());return new Symbol(sym.PRINT);}
+"const" {System.out.println("CONST "+yytext());return new Symbol(sym.CONST);}
+"string" {System.out.println("STRING "+yytext());return new Symbol(sym.STRING);}
+"float" {System.out.println("FLOAT"+yytext());return new Symbol(sym.FLOAT);}
+"char" {System.out.println("CHAR "+yytext());return new Symbol(sym.CHAR);}
+"var" {System.out.println("VAR "+yytext());return new Symbol(sym.VAR);}
+"nil" {System.out.println("NIL "+yytext());return new Symbol(sym.NIL);}
+"=" {System.out.println("Equal "+yytext());return new Symbol(sym.EQUALS);}
+[0-9]+ {System.out.println("int "+yytext());return new Symbol(sym.INTEGER,new  Integer(yytext()));}
+[\"][a-zA-Z0-9]+[\"] {System.out.println("string "+yytext());return new Symbol(sym.STRINGVAL, new String(yytext()));}
+[0-9]+[.][0-9]*  {System.out.println("float "+yytext());return new Symbol(sym.FLOATPOINT,new Integer(yytext()));}
+[\{]([\"][A-Za-z0-9]*[\"][,])*[\"][A-Za-z0-9]*[\"][\}] {System.out.println("stringarray "+yytext());return new Symbol(sym.STRINGARRAY,new String(yytext()));}
+[\{]([0-9]+[,])*[0-9]+[\}]  {System.out.println("array "+yytext());return new Symbol(sym.ARRAY,new String(yytext()));}
+[a-z][a-z0-9]* {System.out.println("identifier"+yytext());return new Symbol(sym.ID,new String(yytext()));}
+[a-z][a-z0-9]*([\[][0-9]+[\]])+  {System.out.println("Array identifier "+yytext());return new Symbol(sym.ARRAYID,new String(yytext()));}
+([a-z][a-z0-9]*[\.])*[a-z][a-z0-9]*  {System.out.println("identifier "+yytext());return new Symbol(sym.IDENTIFIER,new String(yytext()));}
+[\n\r] {System.out.println("LA"+ "EOF");return new Symbol(sym.EOFILE);}
+
